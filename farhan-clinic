@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farhan Aesthetic Clinic | Premium Aesthetic Medicine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'clinic-gold': '#D4AF37',
+                        'clinic-rose': '#E8D5D0',
+                        'clinic-sage': '#9CAF88',
+                        'clinic-cream': '#F9F7F4',
+                        'clinic-charcoal': '#2C2C2C',
+                        'clinic-blush': '#F5E6E0'
+                    },
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'slide-in': 'slideIn 0.6s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8941F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .before-after-slider {
+            position: relative;
+            overflow: hidden;
+            cursor: col-resize;
+        }
+        .before-after-slider img {
+            user-select: none;
+            pointer-events: none;
+        }
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #D4AF37;
+            cursor: col-resize;
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: #D4AF37;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .service-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,247,244,0.9) 100%);
+            border: 1px solid rgba(212,175,55,0.1);
+        }
+        .noise-bg {
+            position: relative;
+        }
+        .noise-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 50;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); }
+        }
+        .custom-cursor {
+            cursor: none;
+        }
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 5px;
+            height: 5px;
+            background-color: #D4AF37;
+        }
+        .cursor-outline {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #D4AF37;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        .cursor-hover .cursor-outline {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(212, 175, 55, 0.1);
+            border-color: transparent;
+        }
+    </style>
+</head>
+<body class="font-sans text-clinic-charcoal bg-clinic-cream custom-cursor overflow-x-hidden">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-40 transition-all duration-500 py-6">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-clinic-gold to-yellow-600 flex items-center justify-center text-white font-serif text-xl font-bold shadow-lg">
+                    F
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-serif text-2xl font-semibold tracking-wide text-clinic-charcoal">Farhan</span>
+                    <span class="text-xs tracking-[0.3em] text-clinic-gold uppercase">Aesthetic Clinic</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#home" class="text-sm tracking-wide hover:text-clinic-gold transition-colors">Home</a>
+                <a href="#about" class="text-sm tracking-wide hover:text-clinic-gold transition-colors">About</a>
+                <a href="#services" class="text-sm tracking-wide hover:text-clinic-gold transition-colors">Services</a>
+                <a href="#results" class="text-sm tracking-wide hover:text-clinic-gold transition-colors">Results</a>
+                <a href="#testimonials" class="text-sm tracking-wide hover:text-clinic-gold transition-colors">Stories</a>
+                <a href="https://wa.me/923227362137" target="_blank" class="bg-clinic-charcoal text-white px-6 py-3 rounded-full text-sm tracking-wide hover:bg-clinic-gold transition-all duration-300 flex items-center gap-2">
+                    <i class="fab fa-whatsapp"></i>
+                    Book Now
+                </a>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-2xl text-clinic-charcoal">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-xl py-6 px-6 flex flex-col gap-4">
+            <a href="#home" class="text-lg py-2 border-b border-gray-100">Home</a>
+            <a href="#about" class="text-lg py-2 border-b border-gray-100">About</a>
+            <a href="#services" class="text-lg py-2 border-b border-gray-100">Services</a>
+            <a href="#results" class="text-lg py-2 border-b border-gray-100">Results</a>
+            <a href="https://wa.me/923227362137" class="bg-clinic-gold text-white px-6 py-3 rounded-full text-center mt-4">
+                <i class="fab fa-whatsapp mr-2"></i>Book Appointment
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center pt-20 overflow-hidden noise-bg">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 right-0 w-96 h-96 bg-clinic-rose rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
+            <div class="absolute bottom-20 left-0 w-96 h-96 bg-clinic-sage rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="animation-delay: 2s;"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8 reveal active">
+                <div class="inline-block px-4 py-2 bg-white/50 backdrop-blur-sm rounded-full border border-clinic-gold/20">
+                    <span class="text-clinic-gold text-sm tracking-widest uppercase">Premium Aesthetic Medicine</span>
+                </div>
+                
+                <h1 class="font-serif text-5xl md:text-7xl leading-tight text-clinic-charcoal">
+                    Reveal Your <br>
+                    <span class="text-gradient italic">Natural Beauty</span>
+                </h1>
+                
+                <p class="text-lg text-gray-600 leading-relaxed max-w-lg">
+                    Where science meets artistry. Experience transformative aesthetic treatments tailored to enhance your unique features in a luxurious, serene environment.
+                </p>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="https://wa.me/923227362137" target="_blank" class="group bg-clinic-charcoal text-white px-8 py-4 rounded-full text-sm tracking-wide hover:bg-clinic-gold transition-all duration-300 flex items-center gap-3 shadow-lg hover:shadow-xl">
+                        <span>Schedule Consultation</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="#services" class="px-8 py-4 rounded-full text-sm tracking-wide border-2 border-clinic-charcoal hover:bg-clinic-charcoal hover:text-white transition-all duration-300">
+                        Explore Services
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-8 pt-8 border-t border-gray-200">
+                    <div>
+                        <div class="font-serif text-3xl text-clinic-gold">10+</div>
+                        <div class="text-sm text-gray-500">Years Experience</div>
+                    </div>
+                    <div>
+                        <div class="font-serif text-3xl text-clinic-gold">5000+</div>
+                        <div class="text-sm text-gray-500">Happy Clients</div>
+                    </div>
+                    <div>
+                        <div class="font-serif text-3xl text-clinic-gold">100%</div>
+                        <div class="text-sm text-gray-500">Safety Record</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative reveal active" style="transition-delay: 0.2s;">
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&auto=format&fit=crop&q=80" alt="Luxury Aesthetic Treatment" class="w-full h-[600px] object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                    
+                    <div class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-lg">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-clinic-gold/20 flex items-center justify-center text-clinic-gold">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Certified Excellence</div>
+                                <div class="text-sm text-gray-500">Internationally trained practitioners</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Floating Elements -->
+                <div class="absolute -top-6 -right-6 bg-white rounded-2xl p-4 shadow-xl animate-float">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="text-sm font-medium">FDA Approved<br>Treatments</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-white relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="relative reveal">
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=400&auto=format&fit=crop&q=80" class="rounded-2xl shadow-lg w-full h-64 object-cover mt-12" alt="Clinic Interior">
+                        <img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=400&auto=format&fit=crop&q=80" class="rounded-2xl shadow-lg w-full h-64 object-cover" alt="Treatment Room">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 bg-clinic-gold text-white p-8 rounded-2xl shadow-xl max-w-xs">
+                        <div class="font-serif text-4xl mb-2">“</div>
+                        <p class="text-sm leading-relaxed">Beauty is about enhancing what you have, not masking who you are.</p>
+                        <div class="mt-4 font-semibold">— Dr. Farhan</div>
+                    </div>
+                </div>
+
+                <div class="reveal">
+                    <span class="text-clinic-gold text-sm tracking-widest uppercase mb-4 block">About Our Clinic</span>
+                    <h2 class="font-serif text-4xl md:text-5xl mb-6 leading-tight">A Sanctuary of <br><span class="italic text-clinic-gold">Transformation</span></h2>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Founded on the principle that everyone deserves to feel confident in their skin, Farhan Aesthetic Clinic combines medical expertise with artistic vision. Our state-of-the-art facility offers a discreet, luxurious environment where your comfort and safety are paramount.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-8">
+                        We specialize in non-surgical facial rejuvenation, body contouring, and skin health treatments. Using only premium products and the latest technologies, we create subtle, natural-looking results that enhance your unique beauty.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-clinic-rose flex items-center justify-center text-clinic-gold mt-1">
+                                <i class="fas fa-certificate text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold mb-1">Certified Experts</div>
+                                <div class="text-sm text-gray-500">Board-certified practitioners</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-clinic-rose flex items-center justify-center text-clinic-gold mt-1">
+                                <i class="fas fa-shield-alt text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold mb-1">Premium Safety</div>
+                                <div class="text-sm text-gray-500">Hospital-grade protocols</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-clinic-rose flex items-center justify-center text-clinic-gold mt-1">
+                                <i class="fas fa-heart text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold mb-1">Personalized Care</div>
+                                <div class="text-sm text-gray-500">Bespoke treatment plans</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-clinic-rose flex items-center justify-center text-clinic-gold mt-1">
+                                <i class="fas fa-gem text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold mb-1">Luxury Experience</div>
+                                <div class="text-sm text-gray-500">Spa-like atmosphere</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-clinic-cream noise-bg relative">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-clinic-gold text-sm tracking-widest uppercase mb-4 block">Our Services</span>
+                <h2 class="font-serif text-4xl md:text-5xl mb-6">Comprehensive <span class="italic text-clinic-gold">Aesthetic Solutions</span></h2>
+                <p class="text-gray-600">From subtle enhancements to transformative treatments, we offer a curated selection of premium aesthetic services.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="service-card rounded-3xl p-8 hover-lift reveal group cursor-pointer">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-clinic-rose to-clinic-blush flex items-center justify-center text-2xl text-clinic-gold mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-syringe"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-3">Injectables & Fillers</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">Premium dermal fillers and neuromodulators for facial contouring, wrinkle reduction, and lip enhancement.</p>
+                    <ul class="space-y-2 text-sm text-gray-500 mb-6">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Hyaluronic Acid Fillers</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Anti-Wrinkle Injections</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Profhilo & Skin Boosters</li>
+                    </ul>
+                    <a href="https://wa.me/923227362137?text=I'm%20interested%20in%20Injectables%20%26%20Fillers" class="text-clinic-gold text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card rounded-3xl p-8 hover-lift reveal group cursor-pointer" style="transition-delay: 0.1s;">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-clinic-sage/30 to-clinic-sage/10 flex items-center justify-center text-2xl text-clinic-sage mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-3">Skin Rejuvenation</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">Advanced laser and energy-based treatments for radiant, youthful skin texture and tone.</p>
+                    <ul class="space-y-2 text-sm text-gray-500 mb-6">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Laser Skin Resurfacing</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Chemical Peels</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Microneedling RF</li>
+                    </ul>
+                    <a href="https://wa.me/923227362137?text=I'm%20interested%20in%20Skin%20Rejuvenation" class="text-clinic-gold text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card rounded-3xl p-8 hover-lift reveal group cursor-pointer" style="transition-delay: 0.2s;">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-clinic-gold/20 to-clinic-gold/5 flex items-center justify-center text-2xl text-clinic-gold mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-body"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-3">Body Contouring</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">Non-invasive fat reduction and muscle toning treatments for a sculpted silhouette.</p>
+                    <ul class="space-y-2 text-sm text-gray-500 mb-6">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Cryolipolysis</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> EMS Muscle Sculpting</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Radiofrequency Tightening</li>
+                    </ul>
+                    <a href="https://wa.me/923227362137?text=I'm%20interested%20in%20Body%20Contouring" class="text-clinic-gold text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-card rounded-3xl p-8 hover-lift reveal group cursor-pointer">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-100 to-pink-50 flex items-center justify-center text-2xl text-pink-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-face-smile"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-3">Facial Harmonization</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">Strategic combination treatments to achieve balanced, natural facial proportions.</p>
+                    <ul class="space-y-2 text-sm text-gray-500 mb-6">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Profile Balancing</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Chin & Jawline Definition</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Liquid Facelift</li>
+                    </ul>
+                    <a href="https://wa.me/923227362137?text=I'm%20interested%20in%20Facial%20Harmonization" class="text-clinic-gold text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="service-card rounded-3xl p-8 hover-lift reveal group cursor-pointer" style="transition-delay: 0.1s;">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center text-2xl text-blue-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-droplet"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-3">Hair Restoration</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">Advanced treatments for hair loss prevention and follicle stimulation.</p>
+                    <ul class="space-y-2 text-sm text-gray-500 mb-6">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> PRP Therapy</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Mesotherapy</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Hair Growth Programs</li>
+                    </ul>
+                    <a href="https://wa.me/923227362137?text=I'm%20interested%20in%20Hair%20Restoration" class="text-clinic-gold text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="service-card rounded-3xl p-8 hover-lift reveal group cursor-pointer" style="transition-delay: 0.2s;">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 flex items-center justify-center text-2xl text-purple-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-3">Wellness IV Therapy</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">Customized intravenous vitamin and mineral infusions for optimal health and glow.</p>
+                    <ul class="space-y-2 text-sm text-gray-500 mb-6">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Beauty Drips</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Immunity Boosters</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-clinic-gold text-xs"></i> Energy & Detox</li>
+                    </ul>
+                    <a href="https://wa.me/923227362137?text=I'm%20interested%20in%20IV%20Therapy" class="text-clinic-gold text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before/After Gallery -->
+    <section id="results" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-clinic-gold text-sm tracking-widest uppercase mb-4 block">Transformations</span>
+                <h2 class="font-serif text-4xl md:text-5xl mb-6">Real Results, <span class="italic text-clinic-gold">Real Confidence</span></h2>
+                <p class="text-gray-600">Drag the slider to see the remarkable transformations achieved through our personalized treatment plans.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Before/After 1 -->
+                <div class="reveal">
+                    <div class="before-after-slider relative h-[400px] rounded-2xl overflow-hidden shadow-2xl" id="slider1">
+                        <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&auto=format&fit=crop&q=80" class="absolute inset-0 w-full h-full object-cover" alt="After Treatment">
+                        <div class="absolute inset-0 overflow-hidden" style="width: 50%;" id="before1">
+                            <img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=600&auto=format&fit=crop&q=80" class="absolute inset-0 w-full h-full object-cover max-w-none" style="width: 200%;" alt="Before Treatment">
+                        </div>
+                        <div class="slider-handle" style="left: 50%;" id="handle1">
+                            <div class="slider-button">
+                                <i class="fas fa-arrows-alt-h"></i>
+                            </div>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-xs backdrop-blur-sm">Before</div>
+                        <div class="absolute top-4 right-4 bg-clinic-gold/90 text-white px-3 py-1 rounded-full text-xs backdrop-blur-sm">After</div>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <h3 class="font-serif text-xl">Facial Rejuvenation</h3>
+                        <p class="text-sm text-gray-500">Skin tightening & contouring treatment</p>
+                    </div>
+                </div>
+
+                <!-- Before/After 2 -->
+                <div class="reveal" style="transition-delay: 0.2s;">
+                    <div class="before-after-slider relative h-[400px] rounded-2xl overflow-hidden shadow-2xl" id="slider2">
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&auto=format&fit=crop&q=80" class="absolute inset-0 w-full h-full object-cover" alt="After Treatment">
+                        <div class="absolute inset-0 overflow-hidden" style="width: 50%;" id="before2">
+                            <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&auto=format&fit=crop&q=80" class="absolute inset-0 w-full h-full object-cover max-w-none" style="width: 200%;" alt="Before Treatment">
+                        </div>
+                        <div class="slider-handle" style="left: 50%;" id="handle2">
+                            <div class="slider-button">
+                                <i class="fas fa-arrows-alt-h"></i>
+                            </div>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-xs backdrop-blur-sm">Before</div>
+                        <div class="absolute top-4 right-4 bg-clinic-gold/90 text-white px-3 py-1 rounded-full text-xs backdrop-blur-sm">After</div>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <h3 class="font-serif text-xl">Lip Enhancement</h3>
+                        <p class="text-sm text-gray-500">Natural volume restoration</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="https://wa.me/923227362137?text=I'd%20like%20to%20see%20more%20before%20and%20after%20photos" class="inline-flex items-center gap-2 text-clinic-gold hover:text-clinic-charcoal transition-colors font-medium">
+                    <span>View Full Gallery</span>
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="py-24 bg-clinic-cream noise-bg">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <span class="text-clinic-gold text-sm tracking-widest uppercase mb-4 block">Testimonials</span>
+                <h2 class="font-serif text-4xl md:text-5xl mb-6">Client <span class="italic text-clinic-gold">Stories</span></h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-3xl p-8 shadow-lg hover-lift reveal">
+                    <div class="flex text-clinic-gold mb-4">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 italic">"Farhan Clinic changed my life. The subtle enhancements look so natural, everyone thinks I just got great sleep for months!"</p>
+                    <div class="flex items-center gap-4">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80" class="w-12 h-12 rounded-full object-cover" alt="Client">
+                        <div>
+                            <div class="font-semibold">Sarah A.</div>
+                            <div class="text-sm text-gray-500">Facial Harmonization</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl p-8 shadow-lg hover-lift reveal" style="transition-delay: 0.1s;">
+                    <div class="flex text-clinic-gold mb-4">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 italic">"The level of care and expertise here is unmatched. Dr. Farhan took time to understand exactly what I wanted. Best decision ever."</p>
+                    <div class="flex items-center gap-4">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format&fit=crop&q=80" class="w-12 h-12 rounded-full object-cover" alt="Client">
+                        <div>
+                            <div class="font-semibold">Amna K.</div>
+                            <div class="text-sm text-gray-500">Skin Rejuvenation</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl p-8 shadow-lg hover-lift reveal" style="transition-delay: 0.2s;">
+                    <div class="flex text-clinic-gold mb-4">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 italic">"Finally a clinic that prioritizes safety and natural results. The IV therapy sessions have become my monthly self-care ritual."</p>
+                    <div class="flex items-center gap-4">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-12 h-12 rounded-full object-cover" alt="Client">
+                        <div>
+                            <div class="font-semibold">Zara M.</div>
+                            <div class="text-sm text-gray-500">Wellness IV Therapy</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-24 bg-clinic-charcoal text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-clinic-gold rounded-full filter blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-96 h-96 bg-clinic-rose rounded-full filter blur-3xl"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <span class="text-clinic-gold text-sm tracking-widest uppercase mb-4 block">Begin Your Journey</span>
+                    <h2 class="font-serif text-4xl md:text-5xl mb-6">Ready to Transform <br>Your <span class="italic text-clinic-gold">Confidence?</span></h2>
+                    <p class="text-gray-300 mb-8 leading-relaxed">
+                        Book your complimentary consultation today. Our experts will create a personalized treatment plan tailored to your aesthetic goals.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-clinic-gold">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Call or WhatsApp</div>
+                                <div class="text-xl font-semibold">0322 7362137</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-clinic-gold">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Working Hours</div>
+                                <div class="text-lg">Mon - Sat: 10:00 AM - 8:00 PM</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-clinic-gold">
+                                <i class="fas fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Location</div>
+                                <div class="text-lg">Premium Location, City Center</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal" style="transition-delay: 0.2s;">
+                    <div class="bg-white/5 backdrop-blur-lg rounded-3xl p-8 border border-white/10">
+                        <h3 class="font-serif text-2xl mb-6">Quick Inquiry</h3>
+                        <form id="contactForm" class="space-y-4">
+                            <div>
+                                <input type="text" placeholder="Your Name" class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-clinic-gold transition-colors">
+                            </div>
+                            <div>
+                                <input type="tel" placeholder="Phone Number" class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-clinic-gold transition-colors">
+                            </div>
+                            <div>
+                                <select class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-gray-300 focus:outline-none focus:border-clinic-gold transition-colors">
+                                    <option value="">Select Treatment Interest</option>
+                                    <option value="injectables">Injectables & Fillers</option>
+                                    <option value="skin">Skin Rejuvenation</option>
+                                    <option value="body">Body Contouring</option>
+                                    <option value="hair">Hair Restoration</option>
+                                    <option value="iv">IV Therapy</option>
+                                </select>
+                            </div>
+                            <div>
+                                <textarea placeholder="Tell us about your goals..." rows="3" class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-clinic-gold transition-colors"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-clinic-gold text-clinic-charcoal font-semibold py-4 rounded-xl hover:bg-white transition-colors duration-300">
+                                Send Inquiry
+                            </button>
+                        </form>
+                        <div class="mt-6 pt-6 border-t border-white/10 text-center">
+                            <p class="text-sm text-gray-400 mb-3">Or connect instantly via</p>
+                            <a href="https://wa.me/923227362137" target="_blank" class="inline-flex items-center gap-2 bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600 transition-colors">
+                                <i class="fab fa-whatsapp text-xl"></i>
+                                <span>WhatsApp Chat</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-clinic-charcoal text-white pt-16 pb-8 border-t border-white/10">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-clinic-gold to-yellow-600 flex items-center justify-center text-white font-serif font-bold">
+                            F
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-serif text-xl font-semibold">Farhan</span>
+                            <span class="text-xs tracking-[0.2em] text-clinic-gold uppercase">Aesthetic Clinic</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 mb-6 max-w-sm">
+                        Premium aesthetic medicine combining scientific expertise with artistic vision. Your journey to confident beauty starts here.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-clinic-gold hover:text-clinic-charcoal transition-all">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-clinic-gold hover:text-clinic-charcoal transition-all">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-clinic-gold hover:text-clinic-charcoal transition-all">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-6 text-clinic-gold">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#about" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Services</a></li>
+                        <li><a href="#results" class="hover:text-white transition-colors">Results</a></li>
+                        <li><a href="#testimonials" class="hover:text-white transition-colors">Testimonials</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-6 text-clinic-gold">Contact</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fab fa-whatsapp text-clinic-gold"></i>
+                            0322 7362137
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-envelope text-clinic-gold"></i>
+                            info@farhanclinic.com
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-map-marker-alt text-clinic-gold"></i>
+                            City Center Location
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-gray-500 text-sm">
+                    © 2024 Farhan Aesthetic Clinic. All rights reserved.
+                </div>
+                <div class="text-gray-500 text-sm flex gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/923227362137" target="_blank" class="whatsapp-float bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-50">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
+
+    <script>
+        // Custom Cursor
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        const interactiveElements = document.querySelectorAll('a, button, .hover-lift, input, select, textarea');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                navbar.classList.add('glass-effect', 'shadow-sm');
+                navbar.classList.remove('py-6');
+                navbar.classList.add('py-4');
+            } else {
+                navbar.classList.remove('glass-effect', 'shadow-sm');
+                navbar.classList.remove('py-4');
+                navbar.classList.add('py-6');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            revealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check
+
+        // Before/After Slider Functionality
+        function initSlider(sliderId, handleId, beforeId) {
+            const slider = document.getElementById(sliderId);
+            const handle = document.getElementById(handleId);
+            const before = document.getElementById(beforeId);
+            let isDragging = false;
+
+            const updateSlider = (x) => {
+                const rect = slider.getBoundingClientRect();
+                let percentage = ((x - rect.left) / rect.width) * 100;
+                percentage = Math.max(0, Math.min(100, percentage));
+                
+                handle.style.left = `${percentage}%`;
+                before.style.width = `${percentage}%`;
+            };
+
+            handle.addEventListener('mousedown', () => isDragging = true);
+            window.addEventListener('mouseup', () => isDragging = false);
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                updateSlider(e.clientX);
+            });
+
+            // Touch support
+            handle.addEventListener('touchstart', () => isDragging = true);
+            window.addEventListener('touchend', () => isDragging = false);
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                updateSlider(e.touches[0].clientX);
+            });
+
+            slider.addEventListener('click', (e) => updateSlider(e.clientX));
+        }
+
+        initSlider('slider1', 'handle1', 'before1');
+        initSlider('slider2', 'handle2', 'before2');
+
+        // Form Submission
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Show success message
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.textContent;
+            btn.textContent = 'Message Sent!';
+            btn.classList.add('bg-green-600', 'text-white');
+            btn.classList.remove('bg-clinic-gold', 'text-clinic-charcoal');
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('bg-green-600', 'text-white');
+                btn.classList.add('bg-clinic-gold', 'text-clinic-charcoal');
+                e.target.reset();
+            }, 3000);
+        });
+
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
